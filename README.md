@@ -1,3 +1,28 @@
+# tenzies
+
+Tenzies is a game where the user has to "lock" the value in several dices, and in order to win all of them should present the same value. Upon winning the game the user receives a feedback seeing falling confettis.
+
+## The project
+
+This small project was created to exercise the "frontend muscles". Using Typescript to implicitly define types and function returns and classic css and mostly flex display.
+
+## Logic
+
+At the start of the game the game generates an Array with 10 objects with "value, isHeld, id" values
+
+## ![generateDice](./readme%20images/generateDice.jpg)
+
+From the list of dice Dice objects the map function create a set of button.dice and appropriate values are set and rendered in the tag
+
+## ![diceElements](./readme%20images/diceElements.jpg)
+
+useState is rerendered in 2 instances, whenever the "dice" list is updated and when the "gameWon" value changes.
+
+## Game ending
+
+Game is won when all the buttons have the same value
+![gamewon](./readme%20images/game%20won.jpg)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -52,5 +77,3 @@ export default tseslint.config({
   },
 });
 ```
-
-# tenzies

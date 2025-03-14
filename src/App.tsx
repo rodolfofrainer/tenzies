@@ -15,10 +15,6 @@ export default function App(): JSX.Element {
   const [dice, setDice] = useState(generateAllNewDice());
   const [gameWon, setGameWon] = useState<boolean>(false);
 
-  useEffect(() => {
-    setGameWon(dice.every((die) => die.value === dice[0].value && die.isHeld));
-  }, [dice]);
-
   function generateAllNewDice(): Dice[] {
     return Array(10)
       .fill(0)
@@ -29,6 +25,9 @@ export default function App(): JSX.Element {
       }));
   }
 
+  useEffect(() => {
+    setGameWon(dice.every((die) => die.value === dice[0].value && die.isHeld));
+  }, [dice]);
   function rollButton(): void {
     setDice((oldDice) =>
       oldDice.map((die) =>
