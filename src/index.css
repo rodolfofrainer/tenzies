@@ -5,7 +5,7 @@
 main {
   height: 100vh;
   width: 100%;
-  background-color: #5a5749;
+  background-color: #433355;
 }
 
 .app-container {
@@ -26,23 +26,26 @@ main {
   margin-top: 50px;
   display: grid;
   grid-template: auto auto / repeat(5, 1fr);
-  gap: 8px;
-  max-width: 300px;
+  gap: 10px;
 }
 
 .dice {
   height: 60px;
   width: 60px;
-  font-weight: 500;
   font-size: 2rem;
   border: transparent;
   border-radius: 10px;
-  background-color: rgb(170, 207, 255);
+  background-color: rgb(149, 184, 230);
   color: white;
+  font-weight: 600;
 }
 
 .dice:hover {
-  outline: solid 2px white;
-  font-size: 2.25rem;
-  background-color: rgb(173, 202, 240);
+  outline: solid 3px rgb(255, 255, 255);
+  font-size: 2.5rem;
+  background-color: rgb(124, 145, 173);
+}
+
+.roll-again-button {
+  margin-top: 15px;
 }
