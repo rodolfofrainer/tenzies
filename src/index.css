@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+}
+
+main {
+  height: 100vh;
+  width: 100%;
+  background-color: #5a5749;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.top-bar {
+  margin-top: 20px;
+  text-align: center;
+  max-width: 350px;
+  color: white;
+}
+
+.dices-container {
+  margin-top: 50px;
+  display: grid;
+  grid-template: auto auto / repeat(5, 1fr);
+  gap: 8px;
+  max-width: 300px;
+}
+
+.dice {
+  height: 60px;
+  width: 60px;
+  font-weight: 500;
+  font-size: 2rem;
+  border: transparent;
+  border-radius: 10px;
+  background-color: rgb(170, 207, 255);
+  color: white;
+}
+
+.dice:hover {
+  outline: solid 2px white;
+  font-size: 2.25rem;
+  background-color: rgb(173, 202, 240);
+}
