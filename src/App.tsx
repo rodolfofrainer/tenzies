@@ -1,25 +1,26 @@
 import { JSX } from "react";
+import { useState } from "react";
 
 import TopBar from "./components/TopBar";
 
 export default function App(): JSX.Element {
-  // Dices Logic
-  const NUMBER_OF_DICES: number = 10;
-  let diceList: number[] = [];
-  for (let i = 0; i < NUMBER_OF_DICES; i++) {
-    diceList.push(Math.floor(Math.random() * 6));
+  const [dice, setDice] = useState(generateAllNewDice());
+
+  function generateAllNewDice() {
+    return Array(10)
+      .fill(0)
+      .map(() => Math.ceil(Math.random() * 6));
   }
-  const dices: JSX.Element[] = diceList.map((item, index) => (
-    <button className="dice" key={index}>
-      {item}
-    </button>
+
+  const diceElement = dice.map((num) => (
+    <button className="dice">{num}</button>
   ));
 
   return (
     <main>
       <div className="app-container">
         <TopBar />
-        <div className="dices-container">{dices}</div>
+        <div className="dices-container">{diceElement}</div>
         <button className="roll-again-button">Roll Again</button>
       </div>
     </main>
