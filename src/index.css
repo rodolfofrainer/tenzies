@@ -54,7 +54,7 @@ main {
   outline: solid 3px rgb(255, 236, 130);
 }
 
-.roll-again-button {
+.bottom-button {
   margin-top: 15px;
   font-size: 1.5rem;
   border-radius: 10px;

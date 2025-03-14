@@ -1,6 +1,7 @@
-import { JSX } from "react";
+import { JSX, useEffect } from "react";
 import { useState } from "react";
 import { nanoid } from "nanoid";
+import Confetti from "react-confetti";
 
 import TopBar from "./components/TopBar";
 
@@ -12,6 +13,11 @@ type Dice = {
 
 export default function App(): JSX.Element {
   const [dice, setDice] = useState(generateAllNewDice());
+  const [gameWon, setGameWon] = useState<boolean>(false);
+
+  useEffect(() => {
+    setGameWon(dice.every((die) => die.value === dice[0].value && die.isHeld));
+  }, [dice]);
 
   function generateAllNewDice(): Dice[] {
     return Array(10)
@@ -29,6 +35,11 @@ export default function App(): JSX.Element {
         die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) }
       )
     );
+  }
+
+  function newGame(): void {
+    setDice(generateAllNewDice);
+    setGameWon(false);
   }
 
   function holdButton(id: string): void {
@@ -52,11 +63,18 @@ export default function App(): JSX.Element {
   return (
     <main>
       <div className="app-container">
+        {gameWon ? <Confetti /> : undefined}
         <TopBar />
         <div className="dices-container">{diceElements}</div>
-        <button onClick={rollButton} className="roll-again-button">
-          Roll
-        </button>
+        {gameWon ? (
+          <button onClick={newGame} className="bottom-button">
+            New Game
+          </button>
+        ) : (
+          <button onClick={rollButton} className="bottom-button">
+            Roll
+          </button>
+        )}
       </div>
     </main>
   );
