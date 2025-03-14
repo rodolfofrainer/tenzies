@@ -43,11 +43,13 @@ export default function App(): JSX.Element {
   }
 
   function holdButton(id: string): void {
-    setDice((oldDice) => {
-      return oldDice.map((die) => {
-        return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
+    if (!gameWon) {
+      setDice((oldDice) => {
+        return oldDice.map((die) => {
+          return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
+        });
       });
-    });
+    }
   }
 
   const diceElements: JSX.Element[] = dice.map((obj) => (
@@ -62,8 +64,8 @@ export default function App(): JSX.Element {
 
   return (
     <main>
+      {gameWon ? <Confetti className="confetti" /> : undefined}
       <div className="app-container">
-        {gameWon ? <Confetti /> : undefined}
         <TopBar />
         <div className="dices-container">{diceElements}</div>
         {gameWon ? (
