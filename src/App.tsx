@@ -17,6 +17,14 @@ export default function App(): JSX.Element {
       }));
   }
 
+  function rollButton() {
+    setDice((oldDice) =>
+      oldDice.map((die) =>
+        die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) }
+      )
+    );
+  }
+
   function holdButton(id: string) {
     setDice((oldDice) => {
       return oldDice.map((die) => {
@@ -40,7 +48,9 @@ export default function App(): JSX.Element {
       <div className="app-container">
         <TopBar />
         <div className="dices-container">{diceElements}</div>
-        <button className="roll-again-button">Roll Again</button>
+        <button onClick={rollButton} className="roll-again-button">
+          Roll
+        </button>
       </div>
     </main>
   );
