@@ -4,10 +4,16 @@ import { nanoid } from "nanoid";
 
 import TopBar from "./components/TopBar";
 
+type Dice = {
+  value: number;
+  isHeld: boolean;
+  id: string;
+};
+
 export default function App(): JSX.Element {
   const [dice, setDice] = useState(generateAllNewDice());
 
-  function generateAllNewDice() {
+  function generateAllNewDice(): Dice[] {
     return Array(10)
       .fill(0)
       .map(() => ({
@@ -17,7 +23,7 @@ export default function App(): JSX.Element {
       }));
   }
 
-  function rollButton() {
+  function rollButton(): void {
     setDice((oldDice) =>
       oldDice.map((die) =>
         die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) }
@@ -25,7 +31,7 @@ export default function App(): JSX.Element {
     );
   }
 
-  function holdButton(id: string) {
+  function holdButton(id: string): void {
     setDice((oldDice) => {
       return oldDice.map((die) => {
         return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
@@ -33,7 +39,7 @@ export default function App(): JSX.Element {
     });
   }
 
-  const diceElements = dice.map((obj) => (
+  const diceElements: JSX.Element[] = dice.map((obj) => (
     <button
       key={obj.id}
       onClick={() => holdButton(obj.id)}
