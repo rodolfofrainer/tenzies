@@ -76,6 +76,8 @@ export default function App(): JSX.Element {
   const time = new Date();
   time.setSeconds(time.getSeconds() + 60);
 
+  useEffect(() => {}, [time]);
+
   function MyTimer({ expiryTimestamp }): JSX.Element {
     const { totalSeconds } = useTimer({
       expiryTimestamp,
