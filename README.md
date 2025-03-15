@@ -8,19 +8,26 @@ This small project was created to exercise the "frontend muscles". Using Typescr
 
 ## Logic
 
+### Game start logic
+
 At the start of the game the game generates an Array with 10 objects with "value, isHeld, id" values
 
-## ![generateDice](./readme%20images/generateDice.jpg)
+![generateDice](./readme%20images/generateDice.jpg)
+
+### Rendering dices
 
 From the list of dice Dice objects the map function create a set of button.dice and appropriate values are set and rendered in the tag
 
-## ![diceElements](./readme%20images/diceElements.jpg)
+![diceElements](./readme%20images/diceElements.jpg)
+
+### Game states
 
 useState is rerendered in 2 instances, whenever the "dice" list is updated and when the "gameWon" value changes.
 
-## Game ending
+### Game ending
 
 Game is won when all the buttons have the same value
+
 ![gamewon](./readme%20images/game%20won.jpg)
 
 # React + TypeScript + Vite

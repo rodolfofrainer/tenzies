@@ -2,6 +2,7 @@ import { JSX, useEffect } from "react";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
+import { useTimer } from "react-timer-hook";
 
 import TopBar from "./components/TopBar";
 
@@ -13,8 +14,11 @@ type Dice = {
 
 export default function App(): JSX.Element {
   const [dice, setDice] = useState(generateAllNewDice());
-  const [gameWon, setGameWon] = useState<boolean>(false);
 
+  let gameFinished = false;
+  let gameWon = false;
+
+  //GENERATE  DICE OBJ
   function generateAllNewDice(): Dice[] {
     return Array(10)
       .fill(0)
@@ -25,9 +29,7 @@ export default function App(): JSX.Element {
       }));
   }
 
-  useEffect(() => {
-    setGameWon(dice.every((die) => die.value === dice[0].value && die.isHeld));
-  }, [dice]);
+  // Roll button
   function rollButton(): void {
     setDice((oldDice) =>
       oldDice.map((die) =>
@@ -36,13 +38,9 @@ export default function App(): JSX.Element {
     );
   }
 
-  function newGame(): void {
-    setDice(generateAllNewDice);
-    setGameWon(false);
-  }
-
+  // UPDATE isHeld value from Dice Obj
   function holdButton(id: string): void {
-    if (!gameWon) {
+    if (!gameFinished) {
       setDice((oldDice) => {
         return oldDice.map((die) => {
           return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
@@ -50,7 +48,7 @@ export default function App(): JSX.Element {
       });
     }
   }
-
+  // Render Dice Obj into HTML
   const diceElements: JSX.Element[] = dice.map((obj) => (
     <button
       key={obj.id}
@@ -61,6 +59,48 @@ export default function App(): JSX.Element {
     </button>
   ));
 
+  // NEW GAME
+  function newGame(): void {
+    setDice(generateAllNewDice);
+    gameWon = false;
+    gameFinished = false;
+  }
+
+  //GAME OVER
+  function gameOver(): void {
+    gameWon = false;
+    gameFinished = true;
+  }
+
+  // timer logic
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 60);
+
+  function MyTimer({ expiryTimestamp }): JSX.Element {
+    const { totalSeconds } = useTimer({
+      expiryTimestamp,
+      onExpire: () => gameOver,
+      interval: 100,
+    });
+
+    return (
+      <div style={{ textAlign: "center" }}>
+        <div style={{ fontSize: "100px" }}>
+          <span>{totalSeconds}</span>
+          <br />
+          <span>seconds left</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Win logic
+  if (dice.every((die) => die.value === dice[0].value && die.isHeld)) {
+    gameFinished = true;
+    gameWon = true;
+  }
+
+  // APP FUNCTION
   return (
     <main>
       {gameWon ? <Confetti className="confetti" /> : undefined}
@@ -77,6 +117,7 @@ export default function App(): JSX.Element {
           </button>
         )}
       </div>
+      <MyTimer expiryTimestamp={time} />
     </main>
   );
 }
