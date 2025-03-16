@@ -6,6 +6,10 @@ import { useTimer } from "react-timer-hook";
 
 import TopBar from "./components/TopBar";
 
+type MyTimerProps = {
+  expiryTimestamp: Date;
+};
+
 type Dice = {
   value: number;
   isHeld: boolean;
@@ -14,6 +18,13 @@ type Dice = {
 
 export default function App(): JSX.Element {
   const [dice, setDice] = useState(generateAllNewDice());
+
+  // timer logic
+  const [time, setTime] = useState(() => {
+    const futureTime = new Date();
+    futureTime.setSeconds(futureTime.getSeconds() + 60);
+    return futureTime;
+  });
 
   let gameFinished = false;
   let gameWon = false;
@@ -59,29 +70,34 @@ export default function App(): JSX.Element {
     </button>
   ));
 
+  //Reset timer
+  function resetTimer(): void {
+    const newTime = new Date();
+    newTime.setSeconds(newTime.getSeconds() + 60);
+    setTime(newTime);
+  }
+
   // NEW GAME
   function newGame(): void {
     setDice(generateAllNewDice);
+    resetTimer();
     gameWon = false;
     gameFinished = false;
   }
 
   //GAME OVER
   function gameOver(): void {
-    gameWon = false;
-    gameFinished = true;
+    const currentTime = new Date();
+    if (time >= currentTime) {
+      gameWon = false;
+      gameFinished = true;
+    }
   }
 
-  // timer logic
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + 60);
-
-  useEffect(() => {}, [time]);
-
-  function MyTimer({ expiryTimestamp }): JSX.Element {
+  function MyTimer({ expiryTimestamp }: MyTimerProps): JSX.Element {
     const { totalSeconds } = useTimer({
       expiryTimestamp,
-      onExpire: () => gameOver,
+      onExpire: () => gameOver(),
       interval: 100,
     });
 
