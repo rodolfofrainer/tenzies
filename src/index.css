@@ -85,10 +85,14 @@ main {
   border-radius: 20px;
   font-size: 1.5rem;
   font-weight: 600;
-  color: rgb(66, 29, 168);
+  color: rgb(77, 41, 173);
   margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.timer-container > span {
+  color: rgb(39, 3, 124);
 }

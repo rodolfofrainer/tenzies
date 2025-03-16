@@ -17,7 +17,7 @@ type Dice = {
 };
 
 export default function App(): JSX.Element {
-  const GAME_TIME = 60;
+  const GAME_TIME = 2;
 
   const [dice, setDice] = useState(generateAllNewDice());
   const [gameFinished, setGameFinished] = useState(false);
@@ -134,7 +134,11 @@ export default function App(): JSX.Element {
           </button>
         )}
       </div>
-      <MyTimer expiryTimestamp={time} />
+      {gameFinished ? (
+        <span className="game-lost-container timer-container">You Lose!</span>
+      ) : (
+        <MyTimer expiryTimestamp={time} />
+      )}
     </main>
   );
 }
