@@ -17,16 +17,17 @@ type Dice = {
 };
 
 export default function App(): JSX.Element {
+  const GAME_TIME = 60;
+
   const [dice, setDice] = useState(generateAllNewDice());
+  const [gameFinished, setGameFinished] = useState(false);
 
   // timer logic
   const [time, setTime] = useState(() => {
     const futureTime = new Date();
-    futureTime.setSeconds(futureTime.getSeconds() + 60);
+    futureTime.setSeconds(futureTime.getSeconds() + GAME_TIME);
     return futureTime;
   });
-
-  let gameFinished = false;
   let gameWon = false;
 
   //GENERATE  DICE OBJ
@@ -73,7 +74,7 @@ export default function App(): JSX.Element {
   //Reset timer
   function resetTimer(): void {
     const newTime = new Date();
-    newTime.setSeconds(newTime.getSeconds() + 60);
+    newTime.setSeconds(newTime.getSeconds() + GAME_TIME);
     setTime(newTime);
   }
 
@@ -82,15 +83,16 @@ export default function App(): JSX.Element {
     setDice(generateAllNewDice);
     resetTimer();
     gameWon = false;
-    gameFinished = false;
+    setGameFinished(false);
   }
 
   //GAME OVER
   function gameOver(): void {
     const currentTime = new Date();
-    if (time >= currentTime) {
+    if (time.getSeconds() - currentTime.getSeconds() <= 0) {
       gameWon = false;
-      gameFinished = true;
+      setGameFinished(true);
+      console.log("lost");
     }
   }
 
@@ -102,19 +104,16 @@ export default function App(): JSX.Element {
     });
 
     return (
-      <div style={{ textAlign: "center" }}>
-        <div style={{ fontSize: "100px" }}>
-          <span>{totalSeconds}</span>
-          <br />
-          <span>seconds left</span>
-        </div>
+      <div className="timer-container">
+        <span>{totalSeconds}</span>
+        <p>Seconds Left</p>
       </div>
     );
   }
 
   // Win logic
   if (dice.every((die) => die.value === dice[0].value && die.isHeld)) {
-    gameFinished = true;
+    setGameFinished(true);
     gameWon = true;
   }
 
@@ -125,7 +124,7 @@ export default function App(): JSX.Element {
       <div className="app-container">
         <TopBar />
         <div className="dices-container">{diceElements}</div>
-        {gameWon ? (
+        {gameFinished ? (
           <button onClick={newGame} className="bottom-button">
             New Game
           </button>
