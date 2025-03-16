@@ -1,5 +1,4 @@
-import { JSX, useEffect } from "react";
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { nanoid } from "nanoid";
 import Confetti from "react-confetti";
 import { useTimer } from "react-timer-hook";
@@ -17,10 +16,11 @@ type Dice = {
 };
 
 export default function App(): JSX.Element {
-  const GAME_TIME = 2;
+  const GAME_TIME = 60;
 
   const [dice, setDice] = useState(generateAllNewDice());
   const [gameFinished, setGameFinished] = useState(false);
+  const [numberOfPlays, setNumberOfPlays] = useState(10);
 
   // timer logic
   const [time, setTime] = useState(() => {
@@ -53,6 +53,7 @@ export default function App(): JSX.Element {
   // UPDATE isHeld value from Dice Obj
   function holdButton(id: string): void {
     if (!gameFinished) {
+      removeAPlay();
       setDice((oldDice) => {
         return oldDice.map((die) => {
           return die.id === id ? { ...die, isHeld: !die.isHeld } : die;
@@ -88,11 +89,16 @@ export default function App(): JSX.Element {
 
   //GAME OVER
   function gameOver(): void {
-    const currentTime = new Date();
-    if (time.getSeconds() - currentTime.getSeconds() <= 0) {
-      gameWon = false;
-      setGameFinished(true);
-      console.log("lost");
+    gameWon = false;
+    setGameFinished(true);
+  }
+
+  function removeAPlay() {
+    if (numberOfPlays > 0) {
+      setNumberOfPlays((play) => play - 1);
+      if (numberOfPlays === 1) {
+        gameOver();
+      }
     }
   }
 
@@ -139,6 +145,9 @@ export default function App(): JSX.Element {
       ) : (
         <MyTimer expiryTimestamp={time} />
       )}
+      <div className="number-of-plays">
+        <p>{`${numberOfPlays} play${numberOfPlays > 1 ? "s" : ""} left`}</p>
+      </div>
     </main>
   );
 }
