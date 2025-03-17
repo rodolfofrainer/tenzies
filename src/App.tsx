@@ -126,27 +126,34 @@ export default function App(): JSX.Element {
   // APP FUNCTION
   return (
     <main>
-      {gameWon ? <Confetti className="confetti" /> : undefined}
-      <div className="app-container">
-        <TopBar />
-        <div className="dices-container">{diceElements}</div>
-        {gameFinished ? (
-          <button onClick={newGame} className="bottom-button">
-            New Game
-          </button>
-        ) : (
-          <button onClick={rollButton} className="bottom-button">
-            Roll
-          </button>
-        )}
-      </div>
-      {gameFinished ? (
-        <span className="game-lost-container timer-container">You Lose!</span>
-      ) : (
-        <MyTimer expiryTimestamp={time} />
-      )}
-      <div className="number-of-plays">
-        <p>{`${numberOfPlays} play${numberOfPlays > 1 ? "s" : ""} left`}</p>
+      <div>
+        <div className="number-of-plays">
+          <p>{numberOfPlays}</p>
+          <p>{` play${numberOfPlays > 1 ? "s" : ""} left`}</p>
+        </div>
+        <div>
+          {gameWon ? <Confetti className="confetti" /> : undefined}
+          <div className="app-container">
+            <TopBar />
+            <div className="dices-container">{diceElements}</div>
+            {gameFinished ? (
+              <button onClick={newGame} className="bottom-button">
+                New Game
+              </button>
+            ) : (
+              <button onClick={rollButton} className="bottom-button">
+                Roll
+              </button>
+            )}
+            {gameFinished ? (
+              <span className="game-lost-container timer-container">
+                You Lose!
+              </span>
+            ) : (
+              <MyTimer expiryTimestamp={time} />
+            )}
+          </div>
+        </div>
       </div>
     </main>
   );
